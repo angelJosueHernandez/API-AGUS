@@ -1,12 +1,15 @@
 const { getConnection, sql } = require('../database/connection');
 
 // Función para el login del usuario
+
+
+
 exports.loginUser = async (req, res) => {
-    const { email, contraseña } = req.body;
+    const { email, contrasena } = req.body;
 
-    console.log(`Email: ${email}, Contraseña: ${contraseña}`); // Depuración
+    console.log(Email: ${email}, Contraseña: ${contrasena}); // Depuración
 
-    if (!email || !contraseña) {
+    if (!email || !contrasena) {
         return res.status(400).json({ message: 'Email y contraseña son requeridos' });
     }
 
@@ -14,7 +17,7 @@ exports.loginUser = async (req, res) => {
         const pool = await getConnection();
         const result = await pool.request()
             .input('email', sql.NVarChar, email)
-            .query('SELECT ID_Usuario, nombre, contraseña FROM usuario WHERE email = @email');
+            .query('SELECT ID_Usuario, nombre, contrasena FROM usuario WHERE email = @email');
 
         if (result.recordset.length === 0) {
             return res.status(401).json({ message: 'Usuario no encontrado' });
@@ -22,7 +25,7 @@ exports.loginUser = async (req, res) => {
 
         const user = result.recordset[0];
         
-        if (contraseña !== user.contraseña) {
+        if (contrasena !== user.contrasena) {
             return res.status(401).json({ message: 'Contraseña incorrecta' });
         }
 
@@ -30,8 +33,8 @@ exports.loginUser = async (req, res) => {
         res.json({ message: 'Inicio de sesión exitoso', ID_Usuario: user.ID_Usuario, nombre: user.nombre });
     } catch (err) {
         console.error('Error en loginUser:', err);
-        res.status(500).json({ message: 'Error al iniciar sesión' });
-    }
+        res.status(500).json({ message: 'Error al iniciar sesión' });
+    }
 };
 
 // Función para obtener las tareas del usuario
