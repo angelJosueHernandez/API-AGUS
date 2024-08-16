@@ -17,7 +17,7 @@ exports.loginUser = async (req, res) => {
         const pool = await getConnection();
         const result = await pool.request()
             .input('email', sql.NVarChar, email)
-            .query('SELECT ID_Usuario, nombre, contrasena FROM usuario WHERE email = @email');
+            .query('SELECT ID_Usuario, nombre, contrasena FROM usuario WHERE correo = @email');
 
         if (result.recordset.length === 0) {
             return res.status(401).json({ message: 'Usuario no encontrado' });
