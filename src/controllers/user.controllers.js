@@ -7,7 +7,7 @@ const { getConnection, sql } = require('../database/connection');
 exports.loginUser = async (req, res) => {
     const { email, contrasena } = req.body;
 
-    console.log(Email: ${email}, Contraseña: ${contrasena}); // Depuración
+    console.log(`Email: ${email}, Contraseña: ${contrasena}`); // Depuración
 
     if (!email || !contrasena) {
         return res.status(400).json({ message: 'Email y contraseña son requeridos' });
@@ -33,9 +33,10 @@ exports.loginUser = async (req, res) => {
         res.json({ message: 'Inicio de sesión exitoso', ID_Usuario: user.ID_Usuario, nombre: user.nombre });
     } catch (err) {
         console.error('Error en loginUser:', err);
-        res.status(500).json({ message: 'Error al iniciar sesión' });
-    }
+        res.status(500).json({ message: 'Error al iniciar sesión' });
+    }
 };
+
 
 // Función para obtener las tareas del usuario
 exports.getUserTasks = async (req, res) => {
